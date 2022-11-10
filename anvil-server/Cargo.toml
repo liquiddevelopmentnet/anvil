@@ -1,0 +1,12 @@
+[package]
+name = "anvil-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = { version = "4.2.1", features = ["rustls", "macros", "compress-brotli", "compress-gzip", "compress-zstd"] }
+paris = { version = "1.5.13", features = ["macros", "timestamps"] }
+tokio = { version = "1.21.1", features = ["full"] }
+enable-ansi-support = "0.1.2"
+yaml-rust = "0.4.5"
+git-version = "0.3.5"
