@@ -1,11 +1,17 @@
+mod config;
+mod notify;
+
 use std::{fs, io};
 use actix_web::{App, HttpServer, middleware};
 use actix_web::cookie::time::format_description::well_known::iso8601::Config;
 use actix_web::web::PayloadConfig;
 use paris::{error, info, success, warn};
+use crate::config::Configuration;
+
+pub static mut CONFIG: Option<Configuration> = None;
 
 #[tokio::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> io::Result<()> {
     enable_ansi_support::enable_ansi_support().unwrap_or(());
 
     #[cfg(debug_assertions)]
@@ -20,9 +26,18 @@ async fn main() -> std::io::Result<()> {
     info!("<bright-black>system    :</> {}<bright-black>/</>{}", std::env::consts::OS, std::env::consts::ARCH);
     info!("");
 
-    todo!("load config");
+    unsafe { CONFIG = Option::from(config::load()) }
 
-    todo!("load database");
+    unsafe { notify::init(); }
+
+    notify::send_notification(
+        "anvil: server started",
+        "The server will now start up.",
+        &None,
+        &None,
+    ).await;
+
+    /*todo!("load database");
 
     todo!("load plugins");
 
@@ -30,7 +45,7 @@ async fn main() -> std::io::Result<()> {
 
     todo!("load middleware");
 
-    todo!("load server");
+    todo!("load server");*/
 
     Ok(())
 }

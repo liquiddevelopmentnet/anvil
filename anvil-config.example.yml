@@ -1,0 +1,18 @@
+bind_config:
+  address: localhost
+  port: 56971
+database_config:
+  address: localhost
+  port: 3306
+  username: root
+  password: password
+  database: anvil
+plugins_enabled: false
+notification_config:
+  enabled: true
+  webhooks:
+  - name: anvil Notifications
+    url: https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz
+    avatar_url: https://example.com/yourimage.png
+    method: POST
+    standard: Discord
