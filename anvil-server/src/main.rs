@@ -6,6 +6,8 @@ use actix_web::{App, HttpServer, middleware};
 use actix_web::cookie::time::format_description::well_known::iso8601::Config;
 use actix_web::web::PayloadConfig;
 use paris::{error, info, success, warn};
+use diesel::pg::PgConnection;
+use diesel::prelude::*;
 use crate::config::Configuration;
 
 pub static mut CONFIG: Option<Configuration> = None;
@@ -26,20 +28,27 @@ async fn main() -> io::Result<()> {
     info!("<bright-black>system    :</> {}<bright-black>/</>{}", std::env::consts::OS, std::env::consts::ARCH);
     info!("");
 
-    unsafe { CONFIG = Option::from(config::load()) }
+    unsafe {
+        notify::init();
 
-    unsafe { notify::init(); }
+        let lcc = config::load();
+        CONFIG = Option::from(lcc.clone());
 
-    notify::send_notification(
-        "anvil: server started",
-        "The server will now start up.",
-        &None,
-        &None,
-    ).await;
+        let db_url = format!(
+            "postgres://{}:{}@{}:{}/{}",
+            lcc.database_config.username,
+            lcc.database_config.password,
+            lcc.database_config.address,
+            lcc.database_config.port,
+            lcc.database_config.database
+        );
 
-    /*todo!("load database");
+        let conn = PgConnection::establish(&db_url).expect("Failed to connect to database");
 
-    todo!("load plugins");
+        info!("connected to database");
+    }
+
+    /*todo!("load plugins");
 
     todo!("load routes");
 

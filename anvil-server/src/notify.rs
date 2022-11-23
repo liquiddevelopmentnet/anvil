@@ -111,6 +111,5 @@ async fn send_discord_notification(
         .header("User-Agent", format!("Anvil/{}/{}", &env!("VERGEN_GIT_SHA")[..7], &env!("VERGEN_GIT_BRANCH")))
         .send()
         .await?;
-    info!("Sent notification to webhook {}!", webhook.name);
     Ok(())
 }
