@@ -68,7 +68,7 @@ impl Configuration {
             },
             database_config: DatabaseConfig {
                 address: "localhost".to_string(),
-                port: 3306,
+                port: 5432,
                 username: "root".to_string(),
                 password: "password".to_string(),
                 database: "anvil".to_string(),
