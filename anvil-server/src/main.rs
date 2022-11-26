@@ -6,7 +6,7 @@ mod db;
 
 use std::{io};
 use actix_web::{App, HttpServer, middleware};
-use paris::{info};
+use paris::{info, success};
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
@@ -23,7 +23,9 @@ async fn main() -> io::Result<()> {
 
     // todo!("Load plugins");
 
-    HttpServer::new(move || {
+    let bind_addr = format!("{}:{}", config::main::get().bind_config.address, config::main::get().bind_config.port);
+
+    let srv = HttpServer::new(move || {
         App::new()
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
@@ -38,8 +40,13 @@ async fn main() -> io::Result<()> {
             )
             .service(api::service())
     })
+        .bind(&bind_addr)?
+        .run();
 
-        .bind((config::main::get().bind_config.address.clone(), config::main::get().bind_config.port.clone()))?
-        .run()
-        .await
+    tokio::join!(
+        srv,
+        async {
+            success!("api server started on http://<cyan>{}</>", bind_addr);
+        }
+    ).0
 }
