@@ -1,7 +1,39 @@
 mod ping;
 
-use actix_web::{HttpResponse, Responder, Scope, web};
+use std::io;
+use actix_web::{App, HttpResponse, HttpServer, middleware, Responder, Scope, web};
 use serde_json::json;
+use paris::{success};
+use crate::config;
+
+pub async fn init() -> io::Result<()> {
+    let bind_addr = format!("{}:{}", config::main::get().bind_config.address, config::main::get().bind_config.port);
+
+    let srv = HttpServer::new(move || {
+        App::new()
+            .wrap(middleware::Compress::default())
+            .wrap(middleware::NormalizePath::default())
+            .wrap(middleware::DefaultHeaders::new()
+                .add(("Server", "anvil"))
+                .add(("X-Powered-By", "anvil"))
+            )
+            .wrap(actix_cors::Cors::default()
+                .allow_any_origin()
+                .allow_any_method()
+                .allow_any_header()
+            )
+            .service(service())
+    })
+        .bind(&bind_addr)?
+        .run();
+
+    tokio::join!(
+        srv,
+        async {
+            success!("api server started on http://<cyan>{}</>", bind_addr);
+        }
+    ).0
+}
 
 pub fn service() -> Scope {
     web::scope("/api")
