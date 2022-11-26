@@ -3,8 +3,9 @@ mod ping;
 use std::io;
 use actix_web::{App, HttpResponse, HttpServer, middleware, Responder, Scope, web};
 use serde_json::json;
-use paris::{success};
 use crate::config;
+use crate::log;
+use crate::{info, success};
 
 pub async fn init() -> io::Result<()> {
     let bind_addr = format!("{}:{}", config::main::get().bind_config.address, config::main::get().bind_config.port);

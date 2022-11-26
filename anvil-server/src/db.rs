@@ -1,6 +1,7 @@
 use diesel::{Connection, PgConnection};
-use paris::{error, success};
 use crate::config;
+use crate::log;
+use crate::{error, success};
 
 pub fn init() {
     let db_url = format!(
