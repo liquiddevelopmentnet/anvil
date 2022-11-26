@@ -13,13 +13,14 @@ use diesel::prelude::*;
 async fn main() -> io::Result<()> {
     enable_ansi_support::enable_ansi_support().unwrap_or(());
 
-    info!("<bright-black>=======================================</>");
+    info!("<bright-black>==================================================</>");
     info!("<cyan>anvil: server</> <red>{}</> <cyan>on</> <red>{}</>", utils::build_version_string(), utils::build_system_info());
-    info!("");
+    println!();
 
     config::load();
     notify::init();
 
+    // TODO: move this to a separate file
     let db_url = format!(
         "postgres://{}:{}@{}:{}/{}",
         config::get().database_config.username,

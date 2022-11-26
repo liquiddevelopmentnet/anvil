@@ -1,7 +1,4 @@
-use std::fmt::format;
-use std::future::Future;
-use paris::{info};
-use reqwest::Client;
+use reqwest::{Client, Error, Response};
 use std::option::Option;
 use crate::config;
 use crate::config::{WebhookConfig, WebhookStandard};
@@ -65,7 +62,7 @@ async fn send_discord_notification(
     description: &str,
     custom_fields: &Option<Vec<CustomField>>,
     author: &Option<Author>,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<Response, Error> {
     let client = Client::new();
     let mut fields = Vec::new();
 
@@ -107,11 +104,10 @@ async fn send_discord_notification(
             }
         ]
     });
-    let res = client.post(&webhook.url)
+    client.post(&webhook.url)
         .body(body.to_string())
         .header("Content-Type", "application/json")
         .header("User-Agent", format!("Anvil/{}/{}", &env!("VERGEN_GIT_SHA")[..7], &env!("VERGEN_GIT_BRANCH")))
         .send()
-        .await?;
-    Ok(())
+        .await
 }

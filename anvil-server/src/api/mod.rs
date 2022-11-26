@@ -1,7 +1,6 @@
 mod ping;
 
-use actix_web::{App, HttpResponse, Responder, Scope, web};
-use actix_web::dev::{ServiceFactory, ServiceRequest, ServiceResponse};
+use actix_web::{HttpResponse, Responder, Scope, web};
 use serde_json::json;
 
 pub fn service() -> Scope {
