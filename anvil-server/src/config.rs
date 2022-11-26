@@ -5,6 +5,8 @@ use paris::info;
 use serde::Serialize;
 use serde::Deserialize;
 
+static mut CONFIG: Option<Configuration> = None;
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Configuration {
     pub bind_config: BindConfig,
@@ -99,18 +101,24 @@ impl Configuration {
     }
 }
 
-pub fn load() -> Configuration {
+pub fn load() {
     if Path::new(DEFAULT_CONFIG_NAME).exists() {
         let mut file = std::fs::File::open(DEFAULT_CONFIG_NAME).unwrap();
         let mut contents = String::new();
         file.read_to_string(&mut contents).unwrap();
 
         let config: Configuration = serde_yaml::from_str(&contents).unwrap();
-        config
+        unsafe { CONFIG = Option::from(config); }
     } else {
         let new = Configuration::new();
         new.save().unwrap();
         info!("A {} file has been created in the current directory. Please configure it to your liking and restart the server.", DEFAULT_CONFIG_NAME);
         exit(0);
+    }
+}
+
+pub fn get() -> Configuration {
+    unsafe {
+        CONFIG.as_ref().unwrap().clone()
     }
 }

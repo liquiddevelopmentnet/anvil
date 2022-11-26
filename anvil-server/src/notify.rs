@@ -3,7 +3,7 @@ use std::future::Future;
 use paris::{info};
 use reqwest::Client;
 use std::option::Option;
-use crate::CONFIG;
+use crate::config;
 use crate::config::{WebhookConfig, WebhookStandard};
 
 static mut WEBHOOKS: Option<Vec<WebhookConfig>> = None;
@@ -20,8 +20,10 @@ pub struct Author {
     pub icon_url: String,
 }
 
-pub unsafe fn init() {
-    WEBHOOKS = Option::from(CONFIG.as_ref().unwrap().notification_config.webhooks.clone());
+pub fn init() {
+    unsafe {
+        WEBHOOKS = Option::from(config::get().notification_config.webhooks.clone());
+    }
 }
 
 pub fn get_webhooks() -> Vec<WebhookConfig> {

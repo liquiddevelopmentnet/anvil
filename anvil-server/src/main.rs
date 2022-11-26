@@ -1,60 +1,64 @@
 mod config;
 mod notify;
+mod api;
+mod utils;
 
-use std::{fs, io};
+use std::{io};
 use actix_web::{App, HttpServer, middleware};
-use actix_web::cookie::time::format_description::well_known::iso8601::Config;
-use actix_web::web::PayloadConfig;
-use paris::{error, info, success, warn};
+use paris::{error, info, success};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
-use crate::config::Configuration;
-
-pub static mut CONFIG: Option<Configuration> = None;
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
     enable_ansi_support::enable_ansi_support().unwrap_or(());
 
-    #[cfg(debug_assertions)]
-        let build_type = "development";
-    #[cfg(not(debug_assertions))]
-        let build_type = "production";
-
     info!("<bright-black>=======================================</>");
-    info!("<blue>anvil: server {}</>", env!("CARGO_PKG_VERSION"));
-    info!("");
-    info!("<bright-black>build     :</> {}: {}<bright-black>@</>{}", build_type, &env!("VERGEN_GIT_SHA")[..7], &env!("VERGEN_GIT_BRANCH"));
-    info!("<bright-black>system    :</> {}<bright-black>/</>{}", std::env::consts::OS, std::env::consts::ARCH);
+    info!("<cyan>anvil: server</> <red>{}</> <cyan>on</> <red>{}</>", utils::build_version_string(), utils::build_system_info());
     info!("");
 
-    unsafe {
-        notify::init();
+    config::load();
+    notify::init();
 
-        let lcc = config::load();
-        CONFIG = Option::from(lcc.clone());
+    let db_url = format!(
+        "postgres://{}:{}@{}:{}/{}",
+        config::get().database_config.username,
+        config::get().database_config.password,
+        config::get().database_config.address,
+        config::get().database_config.port,
+        config::get().database_config.database
+    );
 
-        let db_url = format!(
-            "postgres://{}:{}@{}:{}/{}",
-            lcc.database_config.username,
-            lcc.database_config.password,
-            lcc.database_config.address,
-            lcc.database_config.port,
-            lcc.database_config.database
-        );
+    // Create a connection to the database and if error BadConnection, log the message and exit
+    let conn = PgConnection::establish(&db_url).unwrap_or_else(|e| {
+        error!("Failed to connect to database!");
+        error!("Error: {}", e);
+        std::process::exit(1);
+    });
 
-        let conn = PgConnection::establish(&db_url).expect("Failed to connect to database");
+    success!("connected to database");
 
-        info!("connected to database");
-    }
+    // todo!("Database migrations");
 
-    /*todo!("load plugins");
+    // todo!("Load plugins");
 
-    todo!("load routes");
+    HttpServer::new(move || {
+        App::new()
+            .wrap(middleware::Logger::default())
+            .wrap(middleware::Compress::default())
+            .wrap(middleware::NormalizePath::default())
+            .wrap(middleware::DefaultHeaders::new()
+                .add(("X-Powered-By", "anvil"))
+            )
+            .wrap(actix_cors::Cors::default()
+                .allow_any_origin()
+                .allow_any_method()
+                .allow_any_header()
+            )
+            .service(api::service())
+    })
 
-    todo!("load middleware");
-
-    todo!("load server");*/
-
-    Ok(())
+        .bind((config::get().bind_config.address.clone(), config::get().bind_config.port.clone()))?
+        .run()
+        .await
 }

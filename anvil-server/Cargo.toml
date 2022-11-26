@@ -10,6 +10,7 @@ anyhow = "1.0.66"
 
 [dependencies]
 actix-web = { version = "4.2.1", features = ["rustls", "macros", "compress-brotli", "compress-gzip", "compress-zstd"] }
+actix-cors = "0.6.4"
 paris = { version = "1.5.13", features = ["macros", "timestamps"] }
 tokio = { version = "1.21.1", features = ["full"] }
 enable-ansi-support = "0.1.2"
