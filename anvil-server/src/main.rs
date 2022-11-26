@@ -2,12 +2,11 @@ mod config;
 mod notify;
 mod api;
 mod utils;
+mod db;
 
 use std::{io};
 use actix_web::{App, HttpServer, middleware};
-use paris::{error, info, success};
-use diesel::pg::PgConnection;
-use diesel::prelude::*;
+use paris::{info};
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
@@ -18,28 +17,9 @@ async fn main() -> io::Result<()> {
     println!();
 
     config::load_all();
+
     notify::init();
-
-    // TODO: move this to a separate file
-    let db_url = format!(
-        "postgres://{}:{}@{}:{}/{}",
-        config::main::get().database_config.username,
-        config::main::get().database_config.password,
-        config::main::get().database_config.address,
-        config::main::get().database_config.port,
-        config::main::get().database_config.database
-    );
-
-    // Create a connection to the database and if error BadConnection, log the message and exit
-    let conn = PgConnection::establish(&db_url).unwrap_or_else(|e| {
-        error!("Failed to connect to database!");
-        error!("Error: {}", e);
-        std::process::exit(1);
-    });
-
-    success!("connected to database");
-
-    // todo!("Database migrations");
+    db::init();
 
     // todo!("Load plugins");
 
