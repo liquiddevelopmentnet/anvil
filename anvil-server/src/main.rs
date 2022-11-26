@@ -17,17 +17,17 @@ async fn main() -> io::Result<()> {
     info!("<cyan>anvil: server</> <red>{}</> <cyan>on</> <red>{}</>", utils::build_version_string(), utils::build_system_info());
     println!();
 
-    config::load();
+    config::load_all();
     notify::init();
 
     // TODO: move this to a separate file
     let db_url = format!(
         "postgres://{}:{}@{}:{}/{}",
-        config::get().database_config.username,
-        config::get().database_config.password,
-        config::get().database_config.address,
-        config::get().database_config.port,
-        config::get().database_config.database
+        config::main::get().database_config.username,
+        config::main::get().database_config.password,
+        config::main::get().database_config.address,
+        config::main::get().database_config.port,
+        config::main::get().database_config.database
     );
 
     // Create a connection to the database and if error BadConnection, log the message and exit
@@ -59,7 +59,7 @@ async fn main() -> io::Result<()> {
             .service(api::service())
     })
 
-        .bind((config::get().bind_config.address.clone(), config::get().bind_config.port.clone()))?
+        .bind((config::main::get().bind_config.address.clone(), config::main::get().bind_config.port.clone()))?
         .run()
         .await
 }

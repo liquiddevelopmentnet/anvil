@@ -6,6 +6,7 @@ use serde::Serialize;
 use serde::Deserialize;
 
 static mut CONFIG: Option<Configuration> = None;
+const DEFAULT_CONFIG_NAME: &str = "anvil-config.yml";
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Configuration {
@@ -51,15 +52,6 @@ pub enum WebhookStandard {
     Slack,
     Generic,
 }
-
-#[derive(Serialize, Deserialize, Clone)]
-pub enum LoadMethod {
-    Yaml,
-    Json,
-    Toml,
-}
-
-const DEFAULT_CONFIG_NAME: &str = "anvil-config.yml";
 
 impl Configuration {
     fn new() -> Self {
