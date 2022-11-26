@@ -17,8 +17,9 @@ async fn main() -> io::Result<()> {
     println!();
 
     config::load_all();
-
     notify::init();
     db::init();
+    println!();
+
     api::init().await
 }

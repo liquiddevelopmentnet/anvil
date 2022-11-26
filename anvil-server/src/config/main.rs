@@ -3,8 +3,7 @@ use std::path::Path;
 use std::process::exit;
 use serde::Serialize;
 use serde::Deserialize;
-use crate::log;
-use crate::info;
+use crate::*;
 
 static mut CONFIG: Option<Configuration> = None;
 const DEFAULT_CONFIG_NAME: &str = "anvil-config.yml";

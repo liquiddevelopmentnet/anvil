@@ -1,6 +1,6 @@
 use actix_web::*;
 use serde_json::json;
-use crate::utils;
+use crate::*;
 
 #[get("/ping")]
 pub async fn ping() -> impl Responder {

@@ -1,7 +1,5 @@
 use diesel::{Connection, PgConnection};
-use crate::config;
-use crate::log;
-use crate::{error, success};
+use crate::*;
 
 pub fn init() {
     let db_url = format!(
@@ -19,7 +17,7 @@ pub fn init() {
         std::process::exit(1);
     });
 
-    success!("connected to database");
+    cstm!("🔗", "linked with database");
 
     // todo!("Database migrations");
 }

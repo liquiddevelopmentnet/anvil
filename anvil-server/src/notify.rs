@@ -1,6 +1,6 @@
 use reqwest::{Client, Error, Response};
 use std::option::Option;
-use crate::config;
+use crate::*;
 use crate::config::main::{WebhookConfig, WebhookStandard};
 
 static mut WEBHOOKS: Option<Vec<WebhookConfig>> = None;
@@ -21,6 +21,7 @@ pub fn init() {
     unsafe {
         WEBHOOKS = Option::from(config::main::get().notification_config.webhooks.clone());
     }
+    cstm!("📨", "initialized notification system");
 }
 
 pub fn get_webhooks() -> Vec<WebhookConfig> {
