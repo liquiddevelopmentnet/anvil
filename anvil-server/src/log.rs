@@ -3,7 +3,7 @@ use std::io::Write;
 use paris::formatter::colorize_string;
 
 fn stdout(raw: &str) {
-    std::io::stdout().write_all(raw.as_bytes()).unwrap();
+    io::stdout().write_all(raw.as_bytes()).unwrap();
 }
 
 fn stderr(raw: &str) {
