@@ -1,4 +1,5 @@
 mod ping;
+mod channels;
 
 use std::io;
 use actix_web::{App, HttpResponse, HttpServer, middleware, Responder, Scope, web};
@@ -38,7 +39,8 @@ pub fn service() -> Scope {
     web::scope("/api")
         .service(
             web::scope("/v1")
-                .service(ping::ping)
+                .service(ping::get_ping)
+                .service(channels::get_channels)
                 .default_service(
                     web::route().to(not_found)
                 )

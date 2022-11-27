@@ -3,7 +3,7 @@ use serde_json::json;
 use crate::*;
 
 #[get("/ping")]
-pub async fn ping() -> impl Responder {
+pub async fn get_ping() -> impl Responder {
     HttpResponse::Ok().json(json!({
         "version": utils::build_version_string(),
     }))
