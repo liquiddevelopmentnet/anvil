@@ -13,7 +13,7 @@ actix-web = { version = "4.2.1", features = ["rustls", "macros", "compress-brotl
 actix-cors = "0.6.4"
 paris = { version = "1.5.13", features = ["timestamps", "no_logger"] }
 tokio = { version = "1.21.1", features = ["full"] }
-enable-ansi-support = "0.1.2"
+enable-ansi-support = "0.2.1"
 serde_yaml = "0.9.14"
 serde_json = "1.0.87"
 serde = { version = "1.0.130", features = ["derive"] }
