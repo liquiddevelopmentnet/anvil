@@ -1,4 +1,9 @@
-pub fn get_build_type() -> &'static str {
+const GIT_SHA: &str = &env!("VERGEN_GIT_SHA");
+const GIT_BRANCH: &str = env!("VERGEN_GIT_BRANCH");
+const OS: &str = std::env::consts::OS;
+const ARCH: &str = std::env::consts::ARCH;
+
+pub const fn build_type() -> &'static str {
     if cfg!(debug_assertions) {
         "dev"
     } else {
@@ -6,19 +11,15 @@ pub fn get_build_type() -> &'static str {
     }
 }
 
-pub fn build_version_string() -> String {
+pub fn version_string() -> String {
     format!(
         "{}@{}/{}",
-        &env!("VERGEN_GIT_SHA")[..7],
-        &env!("VERGEN_GIT_BRANCH"),
-        &get_build_type()
+        GIT_SHA[..7].to_string(),
+        GIT_BRANCH,
+        &build_type()
     )
 }
 
-pub fn build_system_info() -> String {
-    format!(
-        "{}/{}",
-        std::env::consts::OS,
-        std::env::consts::ARCH
-    )
+pub fn os_string() -> String {
+    format!("{}-{}", OS, ARCH)
 }

@@ -5,6 +5,6 @@ use crate::*;
 #[get("/ping")]
 pub async fn get_ping() -> impl Responder {
     HttpResponse::Ok().json(json!({
-        "version": utils::build_version_string(),
+        "version": utils::version_string(),
     }))
 }
