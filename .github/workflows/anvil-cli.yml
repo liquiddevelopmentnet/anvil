@@ -1,0 +1,30 @@
+name: anvil-cli
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check_and_build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: anvil-cli
+    steps:
+      - uses: actions/checkout@v2 
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            Mobile:
+              - 'anvil-cli/**'
+      - uses: actions/checkout@v3
+      - name: Check
+        run: cargo check
+      - name: Build
+        run: cargo build --release --verbose --all-features
