@@ -4,7 +4,7 @@
 
 Anvil is a high-end, high performance deployment managing service and CI/CD.
 
-* **Blazing performance:** anvil's core products are fully coded in [rust](https://www.rust-lang.org) which provides them a high level of performance and efficiency.
+* **Blazing performance:** anvil's core products are fully coded in [rust](https://www.rust-lang.org) which provides a high level of performance and efficiency.
 
 * **Easy to use:** Anvil's web user interface is intuitive and easy to use, making it accessible to users of all skill levels.
 
