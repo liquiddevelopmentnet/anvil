@@ -1,2 +1,2 @@
 [workspace]
-members = ["anvil-server"]
+members = ["anvil-server", "anvil-cli"]

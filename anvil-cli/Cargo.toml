@@ -1,0 +1,11 @@
+[package]
+name = "anvil-cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "anvil"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.0.30", features = ["derive"] }
