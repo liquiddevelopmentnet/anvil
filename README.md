@@ -1,6 +1,16 @@
 <sub>&#9888; Note: All anvil services are still in heavy development, listed features may not be present yet, click on "Watch" to be notified on updates.</sub>
 
-# <img src="https://user-images.githubusercontent.com/76592300/209555764-e2543c44-4672-4097-a76e-fde76c6da250.png" width="125" /> &middot; [![GitHub license](https://img.shields.io/github/license/liquiddevelopmentnet/anvil?color=blue)](./LICENSE) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg) &middot; ![anvil-server](https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-server.yml?label=anvil-server) ![anvil-cli](https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-cli.yml?label=anvil-cli)
+<div width="100%">
+  <img src="https://user-images.githubusercontent.com/76592300/210256285-2440fa75-c3a3-4e7b-a09b-7dd75871aeca.png" />
+  <h1 style="display: flex;">
+    <img align="left" src="https://img.shields.io/github/license/liquiddevelopmentnet/anvil?color=blue" />
+    <img align="left" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
+    <img align="right" src="https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-server.yml?label=anvil-server" />
+    <img align="right" src="https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-cli.yml?label=anvil-cli" />
+  </h1>
+</div>
+
+<br>
 
 Anvil is a high-end, high performance deployment managing service and CI/CD.
 
