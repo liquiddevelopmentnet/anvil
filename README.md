@@ -5,8 +5,6 @@
   <h1 style="display: flex;">
     <img align="left" src="https://img.shields.io/github/license/liquiddevelopmentnet/anvil?color=blue" />
     <img align="left" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
-    <img align="right" src="https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-server.yml?label=anvil-server" />
-    <img align="right" src="https://img.shields.io/github/actions/workflow/status/liquiddevelopmentnet/anvil/anvil-cli.yml?label=anvil-cli" />
   </h1>
 </div>
 
@@ -14,7 +12,7 @@
 
 Anvil is a high-end, high performance deployment managing service and CI/CD.
 
-* **Blazing performance:** anvil's core products are fully coded in [rust](https://www.rust-lang.org) which provides a high level of performance and efficiency.
+* **Blazing performance:** anvil's core products are fully coded in [Scala](https://www.scala-lang.org/) which provides a high level of performance and efficiency.
 
 * **Easy to use:** Anvil's web user interface is intuitive and easy to use, making it accessible to users of all skill levels.
 
